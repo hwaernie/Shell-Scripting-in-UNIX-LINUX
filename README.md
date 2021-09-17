@@ -1,4 +1,4 @@
-# Shell-Scripting-in-UNIX-LINUX commands
+# Student Mangement using Shell-Scripting-in-UNIX-LINUX Commands
 A commands program that stores Student's details and students results in LINUX Operating System. 
 
 ### About the system:
