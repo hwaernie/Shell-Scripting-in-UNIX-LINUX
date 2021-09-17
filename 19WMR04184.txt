@@ -1,0 +1,13 @@
+Student ID	: 19WMR04184
+Student Name	: CHEW HWA ERN
+Academic Year	: 2020
+Semester	: 1
+ 
+========================================================================================================================================
+	Course Code		Marks Obtained			Grade Obtained			Remark			Quality Point	
+========================================================================================================================================
+	BACS2093			88				A			Excellent		16.0000	 
+	BAMS2054			88				A			Excellent		16.0000	 
+	BAMS2044			88				A			Excellent		16.0000	 
+															=========
+												Total Quality Point: 	48.0000

@@ -1,0 +1,79 @@
+#!/bin/bash
+
+ echo
+ echo
+ echo -e "\e[1m\t\e[40;38;5;82mCOLLEGE MANAGEMENT MENU\e[0m"
+ echo -e "\e[36m======================================\e[0m"
+ echo 
+ echo -e "\e[33m1 \e[0m- Add New Students"
+ echo -e "\e[92m2 \e[0m- Add New Courses"
+ echo -e "\e[93m3 \e[0m- Grade Students (Enter marks for students)"
+ echo -e "\e[94m4 \e[0m- Search Student Details"
+ echo -e "\e[95m5 \e[0m- Search Course Details"
+ echo -e "\e[96m6 \e[0m- Search Student's Result"
+ echo " "
+ echo -e "\e[91mQ \e[0m- QUIT"
+ echo " "
+ 
+continue=i
+until [ "$continue" = "correct" ]
+do
+ echo -n -e "\e[2mPlease Select A Choice\t: "; read menuchoice
+ echo
+
+ case "$menuchoice" in
+ 1)
+	./addstudentscript
+	echo " "
+	continue=correct
+	;;
+ 2)
+	./addcoursescript
+	echo " "
+	continue=correct
+	;;
+ 3)
+	./gradescript
+	echo " "
+	continue=correct
+	;;
+ 4)
+	./searchstudentscript
+	echo " "
+	continue=correct
+	;;
+ 5)
+	./searchcoursescript
+	echo " "
+	continue=correct
+	;;
+ 6)
+	./searchresultscript
+	echo " "
+	continue=correct
+	;;
+ [Qq])
+ 	continue=correct
+ 	
+ 	 	
+	echo -e "\e[1;40;38mThanks for using this program!\e[0m"
+	echo " "
+	echo " "
+	echo -e "\e[1mEXITING..."
+	
+	for i in  {232..246} {246..232} ; 
+	 do 
+	 echo -en "\e[38;5;${i}m_ \e[0m" ;
+	done
+	
+	echo " "
+	sleep 2
+	exit
+	;;
+ *)
+	echo "You Have Entered an Invalid Option, Please Try Again. (1-6)"
+	echo " "
+	;;
+ esac
+  
+done

@@ -1,0 +1,146 @@
+#!/bin/bash
+
+echo
+echo -e "\e[2m**press [Q/q] to quit programme**\e[0m"
+echo 
+echo
+echo -e "\e[40;38;5;82m\tADD NEW COURSE FORM\e[0m"
+echo -e "\e[94m======================================\e[0m"
+echo 
+	 
+course=i
+until [ "$course" = "ok" ]
+do
+echo -n "Course Code (eg. BACS2093)        : "; read coursecode
+if [[ $coursecode =~ ^[A-Z]{4}[0-9]{4}$ ]] || [[ $coursecode =~ ^[Qq]$ ]]; then
+  if [[ $coursecode =~ ^[A-Z]{4}[0-9]{4}$ ]]; then
+	   check="$(grep "$coursecode" "course.txt")"
+	   while IFS=: read -r code remainingdetails
+	   	do
+	   	  if ! [ "$coursecode" = "$code" ]; then
+	   	  course=ok
+	   	  else
+	   	  echo -e "\e[31mTHIS COURSE CODE ALREADY EXISTS. PLEASE TRY AGAIN.\e[0m"
+	   	  fi
+	   	  break
+	   done <<< $check
+    
+  else
+   echo
+   echo "RETURNING TO MAIN MENU..."
+   sleep 2
+   course=ok
+   clear
+   ./menuscript
+   exit
+  fi
+  
+else
+ echo
+ echo -e "\e[31mINVALID COURSE CODE. PLEASE TRY AGAIN. (XXXX0000)\e[0m"
+fi
+done
+
+coursename=i
+until [ "$coursename" = "ok" ]
+do
+echo -en "Course Name\t\t\t: "; read name
+
+if [[ $name =~ ^[*\ A-Za-z]+[-]*[*\ A-Za-z]+$ ]] || [[ $name =~ ^[Qq]$ ]]; then
+  if [[ $name =~ ^[*\ A-Za-z]+[-]*[*\ A-Za-z]+$ ]]; then
+	coursename=ok
+  else
+	echo "RETURNING TO MAIN MENU..."
+	sleep 2
+	coursename=ok
+	clear
+	./menuscript
+	exit
+  fi
+	   
+else
+  echo
+  echo -e "\e[31mINVALID INPUT. PLEASE TRY AGAIN. (ENTER FULL COURSE NAME)\e[0m"
+  fi
+done
+
+
+proceed=i
+until [ "$proceed" = can ]
+do
+  echo -en "Credit Hours (1-12)\t\t: "; read hour
+  if [[ $hour =~ ^[1]?[0-9]$ ]] && [ "$hour" -ge 1 -a "$hour" -le 12 ] || [[ $hour =~ ^[Qq]$ ]]; then
+	if [[ $hour =~ ^[1]?[0-9]$ ]] && [ "$hour" -ge 1 -a "$hour" -le 12 ]; then
+	proceed=can
+	else
+	echo
+	echo "RETURNING TO MAIN MENU..."
+	sleep 2
+	proceed=can
+	clear
+	./menuscript
+	exit	
+	fi
+  else 
+  	echo
+	echo -e "\e[31mHOURS NOT WITHIN RANGE. PLEASE TRY AGAIN.\e[0m"
+  fi
+done
+
+echo " "
+
+save=i
+until [ "$save" = "ok" ]
+  do
+  echo -en "\e[7mDo You Want To Save This Course's Information? YES[Y] NO[N]\t\e[0m: "; read tosave
+	
+	case "$tosave" in
+	[Yy])
+		echo
+		echo -en "\e[0m\e[5m\tSaving New Course Record...\e[0m"
+		sleep 3
+		echo -en "\r\e[0KRECORD SAVED."
+		echo "$coursecode:$name:$hour" >> course.txt
+		save=ok
+		echo
+		;;
+	[Nn])
+	 	echo "RETURNING TO MAIN MENU..."
+	 	echo
+	 	sleep 2
+	 	save=ok
+	 	clear
+	 	./menuscript
+	 	exit
+	 	;;
+	*)
+	 	echo -en "\n\e[31mINVALID OPTION.PLEASE TRY AGAIN.\e[0m"
+	 	echo
+	 	;;
+	esac
+  done
+
+add=i
+until [ "$add" = "correct" ]
+do
+ echo -en "\e[7mDo You Want To Add Another Course? YES[Y] NO[N] \t\e[0m: "; read addcourse
+ 
+ case "$addcourse" in
+ [Yy]) 
+ 	add=correct
+ 	clear
+ 	./addcoursescript
+ 	exit
+ 	;;
+ [Nn])
+ 	add=correct
+ 	clear
+ 	./menuscript
+ 	exit
+ 	;;
+ *)
+ 	echo -en "\n\e[31mINVALID OPTION.PLEASE TRY AGAIN.\e[0m"
+ 	echo " "
+ 	;;
+ esac
+done

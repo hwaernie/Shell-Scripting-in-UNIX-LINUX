@@ -1,0 +1,56 @@
+#!/bin/bash
+
+	if [ "$marks" -ge 80 -a "$marks" -le 100 ]; then
+	grade=A
+	GPA=40000
+	Remarks=Excellent
+	proceed=cont
+		
+	elif [ "$marks" -ge 75 -a "$marks" -le 79 ]; then
+	grade=A-
+	GPA=37500
+	Remarks=Excellent
+	proceed=cont
+
+	elif [ "$marks" -ge 70 -a "$marks" -le 74 ]; then
+	grade=B+
+	GPA=35000
+	Remarks=Good
+	proceed=cont
+
+	elif [ "$marks" -ge 65 -a "$marks" -le 69 ]; then
+	grade=B
+	GPA=30000
+	Remarks=Good
+	proceed=cont
+
+	elif [ "$marks" -ge 60 -a "$marks" -le 64 ]; then
+	grade=B-
+	GPA=27500
+	Remarks=Pass
+	proceed=cont
+
+	elif [ "$marks" -ge 55 -a "$marks" -le 59 ]; then
+	grade=C+
+	GPA=25000
+	Remarks=Pass
+	proceed=cont
+
+	elif [ "$marks" -ge 50 -a "$marks" -le 54 ]; then
+	grade=C
+	GPA=20000
+	Remarks=Pass
+	proceed=cont
+
+	elif [ "$marks" -ge 0 -a "$marks" -le 49 ]; then
+	grade=F
+	GPA=0
+	Remarks=Failed
+	proceed=cont
+
+	else
+	 echo
+	 echo -en "\n\e[31mINPUT NOT IN RANGE.PLEASE TRY AGAIN. (0-100) \e[0m"
+ 	 echo 
+
+	fi

@@ -1,0 +1,307 @@
+#!/bin/bash
+#PROGRAMME SELECTIONS MENU
+
+echo
+echo
+echo -e "\e[1m\t\e[30;48;5;82mPROGRAMME SELECTIONS MENU\e[0m"
+echo -e "\e[36m======================================\e[0m"
+echo " "
+echo -e "\e[33mT \e[0m- RIT (Bachelor in Information Technology)"
+echo -e "\e[92mD \e[0m- RSD (Bachelor in Software Development)"
+echo -e "\e[93mS \e[0m- RST (Bachelor in Interactive Software Technology)"
+echo -e "\e[94mE \e[0m- REI (Bachelor in Enterprise Information System)"
+echo -e "\e[95mF \e[0m- RSF (Bachelor in Software Engineering)"
+echo -e "\e[96mO \e[0m- Add Other Programme Code"
+echo " "
+echo -e "\e[91mQ \e[0m- QUIT (Return to College Management Menu)"
+echo " "
+
+studentchoice=i
+until [ "$studentchoice" = "correct" ]
+do
+echo -n -e "\e[2mPlease Select A Choice\t \e[0m: "; read studentchoice
+echo
+
+case "$studentchoice" in
+[TtDdSsEeFfOo])
+	case "$studentchoice" in
+	[Tt])
+		programme="RIT"
+		studentchoice=correct
+		;;
+	[Dd])
+		programme="RSD"
+		studentchoice=correct
+		;;
+	[Ss])
+		programme="RST"
+		studentchoice=correct
+		;;
+	[Ee])
+		programme="REI"
+		studentchoice=correct
+		;;
+	[Ff])
+		programme="RSF"
+		studentchoice=correct
+		;;
+	[Oo])
+		again=i
+		
+		until [ "$again" = "ok" ]
+		do
+		echo "Please Enter Your Programme Code (RXX) or [Q/q] to return to Programme Selection Menu :"; read other
+				
+		if [[ $other =~ ^[A-Z]{3}$ ]] || [[ "$other" = "Q" ]] || [[ "$other" = "q" ]]; then
+		
+		  if [[ $other =~ ^[A-Z]{3}$ ]]; then
+		   programme="$other"
+		   again=ok
+		  else
+		   again=ok
+		   clear
+		   ./addstudentscript
+		   exit
+		  fi
+		  
+		else
+		 echo "SELECTION NOT FOUND. PLEASE TRY AGAIN"
+		fi
+		done
+		
+		studentchoice=correct
+		;;				
+	esac
+
+#ADD STUDENT FORM
+
+	 echo
+	 echo -e "\e[2m**press [Q/q] to quit programme**\e[0m"
+	 echo 
+	 echo
+	 echo -e "\e[40;38;5;82m\tADD NEW STUDENT FORM\e[0m"
+	 echo -e "\e[94m======================================\e[0m"
+	 echo 
+	 
+	 stuid=i
+	 until [ "$stuid" = "ok" ]
+	 do
+	  echo -en "Student ID (19XXX0000)\t\t\t\t: "; read studentid
+	  if [[ $studentid =~ ^[0-9]{2}[A-Z]{3}[0-9]{5}$ ]] || [[ $studentid =~ ^[Qq]$ ]]; then
+	   
+	   if [[ $studentid =~ ^[0-9]{2}[A-Z]{3}[0-9]{5}$ ]]; then
+	   check="$(grep "$studentid" "student.txt")"
+	   
+	    while IFS=: read -r prog sid remainingdetails
+	   	do
+	   	  if ! [ "$studentid" = "$sid" ]; then
+	   	  stuid=ok
+	   	  id=$studentid
+	   	  else
+	   	  echo -e "\e[31mTHIS ID ALREADY EXISTS. PLEASE TRY AGAIN.\e[0m"
+	   	  fi
+	   	  break
+	    done <<< $check
+	   
+	   else
+	    echo
+	    echo "RETURNING TO PROGRAMME SELECTION MENU...THIS MIGHT TAKE A SECOND"
+	    sleep 2
+	    stuid=ok
+	    clear
+	    ./addstudentscript
+	    exit
+	   fi
+	   
+	  else
+	  echo -e "\e[31mINVALID STUDENT ID. PLEASE TRY AGAIN. (00XXX00000)\t\e[0m"
+	  fi
+	 done
+
+	 stuname=i
+	 until [ "$stuname" = "ok" ]
+	 do
+	 echo -en "Student Name (Full Name)\t\t\t: "; read name
+	 if [[ $name =~ ^[*\ A-Za-z]+$ ]] || [[ $name =~ ^[Qq]$ ]]; then
+	   
+	   if [[ $name =~ ^[Qq]$ ]]; then
+	    echo " "
+	    echo "RETURNING TO PROGRAMME SELECTION MENU...THIS MIGHT TAKE A SECOND"
+	    sleep 2
+	    stuname=ok
+	    clear
+	    ./addstudentscript
+	    exit
+	   else
+	    stuname=ok
+	   fi
+	   
+	else
+	 echo -e "\e[31mINVALID NAME. PLEASE TRY AGAIN. (FULL NAME AS PER IC) \e[0m"
+	fi
+	done
+	 
+	 birth=i
+	 until [ "$birth" = "ok" ]
+	 do
+	 echo -en "Birth Date (YYYY-MM-DD)\t\t\t\t: "; read date
+	 if [[ $date =~ ^[Qq]$ ]] || [[ $date =~ ^[0-9]{4}-[0-9]?[0-9]-[0-9]?[0-9]$ ]] && date -d "$date" >/dev/null 2>&1; then
+	   
+	   if [[ $date =~ ^[0-9]{4}-[0-9]?[0-9]-[0-9]?[0-9]$ ]] && date -d "$date" >/dev/null 2>&1; then
+	    birth=ok
+	   else
+	    echo
+	    echo "RETURNING TO PROGRAMME SELECTION MENU...THIS MIGHT TAKE A SECOND"
+	    sleep 2
+	    birth=ok
+	    clear
+	    ./addstudentscript
+	    exit
+	   fi
+	   
+	 else
+	 echo -en "\n\e[31mINCORRECT DATE FORMAT. PLEASE TRY AGAIN.\e[0m\n"
+	 fi
+	 done
+	 
+	 con=i
+	 until [ "$con" = "ok" ]
+	 do
+	 echo -en "Contact Number (000-0000000)\t\t\t: "; read contact
+	 if [[ $contact =~ ^[0-9]{3}-[0-9]{7}[0-9]?$ ]] || [[ $contact =~ ^[Qq]$ ]]; then
+	   
+	   if [[ $contact =~ ^[0-9]{3}-[0-9]{7}[0-9]?$ ]]; then
+	    con=ok
+	   else
+	    echo
+	    echo "RETURNING TO PROGRAMME SELECTION MENU...THIS MIGHT TAKE A SECOND"
+	    sleep 2
+	    con=ok
+	    clear
+	    ./addstudentscript
+	    exit
+	   fi
+	   
+	 else
+	  echo -en "\n\e[31mINVALID CONTACT NUMBER. PLEASE TRY AGAIN.\e[0m"
+	 fi
+	 done
+	 
+	 add=i
+	 until [ "$add" = "ok" ]
+	 do
+	 echo -en "Mailing Address\t\t\t\t\t: "; read address
+	 if [ -n "$address" ] || [[ $address =~ ^[Qq]$ ]]; then
+	   
+	   if [ -n "$address" ]; then
+	    add=ok
+	   else
+	    echo
+	    echo "RETURNING TO PROGRAMME SELECTION MENU...THIS MIGHT TAKE A SECOND"
+	    sleep 2
+	    add=ok
+	    clear
+	    ./addstudentscript
+	    exit
+	   fi
+	   
+	 else
+	 echo -en "\n\e[31mEMPTY MAILING ADDRESS. PLEASE TRY AGAIN.\e[0m"
+	 fi
+	 done
+	 
+	 mailing=i
+	 until [ "$mailing" = "ok" ]
+	 do
+	 echo -en "Email Address (name-xx00@student.tarc.edu.my)\t: "; read mail
+	 if [[ $mail =~ ^[A-Za-z]+-[A-Za-z]{2}[0-9]{2}@student.tarc.edu.my$ ]] || [[ $mail =~ ^[Qq]$ ]]; then
+	   
+	   if [[ $mail =~ ^[A-Za-z]+-[A-Za-z]{2}[0-9]{2}@student.tarc.edu.my$ ]]; then
+	    mailing=ok
+	   else
+	    echo
+	    echo "RETURNING TO PROGRAMME SELECTION MENU...THIS MIGHT TAKE A SECOND"
+	    sleep 2
+	    mailing=ok
+	    clear
+	    ./addstudentscript
+	    exit
+	   fi
+	   
+	 else
+	  echo -en "\n\e[31mTHIS EMAIL IS NOT REGISTERED UNDER THE TARC DOMAIN. PLEASE TRY AGAIN.\e[0m"
+	 fi
+	 done
+	 
+	 save=i
+	 until [ "$save" = "ok" ]
+	 do
+	 echo
+	 echo -en "\e[7mDo You Want To Save This Student's Information? YES[Y] NO[N]\t\e[0m:"; read tosave
+	 
+	 case "$tosave" in
+	 [Yy])
+	 	echo " "
+		echo -en "\e[0m\e[5m\tSaving New Student Record...\e[0m"
+		sleep 3
+		echo -en "\r\e[0KRECORD SAVED."
+		echo "$programme:$id:$name:$date:$contact:$address:$mail" >> student.txt
+		save=ok
+		echo 
+		;;
+	 [Nn])
+		echo	 
+	 	echo "Going Back to Add New Student Form..."
+	 	sleep 2
+	 	save=ok
+	 	clear
+	 	./addstudentscript
+	 	exit
+	 	;;
+	 *)
+	 	echo -en "\n\e[31mINVALID OPTION.PLEASE TRY AGAIN.\e[0m"
+	 	;;
+	 esac
+	 done
+	 
+	 new=i
+	 until [ "$new" = "correct" ]
+	 do
+	 echo
+ 	 echo -en "\e[7mDo You Want To Add Another Student? YES[Y] NO[N]\t\t\e[0m:"; read addnew
+	 case "$addnew" in
+		[Yy])
+			new=correct
+			clear
+			./addstudentscript
+			exit
+			;;
+		[Nn])
+			new=correct
+			clear
+			./menuscript
+			exit
+			;;
+		*)
+			echo -en "\n\e[31mINVALID OPTION.PLEASE TRY AGAIN.\e[0m"
+			;;
+	 esac
+	 done
+	echo " "
+	;;
+	
+[Qq])
+	echo "RETURNING TO MAIN MENU..."
+	sleep 2
+	clear
+	./menuscript
+	exit
+	;;
+
+*)
+	echo
+	echo - en "\n\e[31mINVALID OPTION. PLEASE TRY AGAIN.\e[0m"
+	echo
+	;;
+esac
+done

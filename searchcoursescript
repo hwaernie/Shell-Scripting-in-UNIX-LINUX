@@ -1,0 +1,76 @@
+#!/bin/bash
+echo
+echo -e "\e[2m**press [Q/q] to quit programme**\e[0m"
+echo 
+echo
+echo -e "   \e[90m**please enter an existing course code to conduct search**\e[0m"
+echo 
+echo
+echo -e "\e[40;38;5;82m\t\tSEARCH COURSE DETAILS FORM\e[0m"
+echo 
+echo 
+ 
+loop=y
+until [ "$loop" = "n" ]
+do
+	echo -en "\e[2m	Enter Course Code	:	\e[0m"; read inputcode
+	echo -e "\e[94m____________________________________________________________________________\e[0m"
+
+	sleep 1
+	
+	if [[ "$inputcode" =~ ^[Qq]$ ]]; then
+	 loop=n
+	 echo "RETURNING TO MAIN MENU..."
+	 sleep 2
+	 clear
+	 ./menuscript
+	 exit
+	else
+	 search="$(grep "$inputcode" "course.txt")"
+
+ 	 while IFS=: read -r code name hour
+	 do 
+	  if [ "$inputcode" = "$code" ];then
+	   echo 
+	   echo "Course Name	: $name"
+	   echo "Credit Hours	: $hour"
+	   echo
+	   loop=n
+	  else
+	   echo
+	   echo -e "\e[31mCOURSE NOT FOUND. PLEASE TRY AGAIN BY ENTERING A VALID COURSE CODE. (XXXX0000) \e[0m"
+	   echo
+	  fi
+	done <<< $search 
+       fi
+done 
+
+ quit=n
+ until [ "$quit" = "y" ]
+ do
+  echo
+  echo -en "\e[7mSearch Another Course? YES[Y] OR NO[N]\t\e[0m: ";read choice1
+  
+   case "$choice1" in
+    [Yy])
+    	quit=y
+    	clear
+	./searchcoursescript
+    	exit
+    	;;
+    [Nn])
+    	quit=y
+    	echo "RETURNING TO MAIN MENU..."
+    	sleep 2
+    	clear
+      	./menuscript
+      	exit
+    	;;
+    *)
+    	echo -en "\n\e[31mINVALID OPTION.PLEASE TRY AGAIN.\e[0m"
+ 	echo 
+ 	echo
+    	;;
+    esac
+   echo ""
+ done

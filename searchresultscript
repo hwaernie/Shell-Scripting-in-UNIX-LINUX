@@ -1,0 +1,86 @@
+#!/bin/bash
+
+echo
+echo -e "\e[2m**press [Q/q] to quit programme**\e[0m"
+echo 
+echo
+echo -e "   \e[90m**please enter an existing student ID to conduct search**"
+echo 
+echo
+echo -e "\e[40;38;5;82m\t\tSEARCH RESULTS DETAILS FORM\e[0m"
+echo 
+echo 
+
+stuid=i
+ until [ "$stuid" = "ok" ]
+ do
+  echo -en "\e[2m	Enter Student ID (00XXX0000)	:	\e[0m"; read studentid
+  echo -en "\e[94m____________________________________________________________________________\e[0m"
+  
+  
+ if  [[ $studentid =~ ^[Qq]$ ]]; then
+   echo " "
+   echo "RETURNING TO MAIN MENU..."
+   sleep 2
+   stuid=ok
+   clear
+   ./menuscript
+   exit
+ 
+ else
+   check="$(grep "$studentid" "student.txt")"
+   
+   while IFS=: read -r programme id name others
+   	do
+   	  if [ "$studentid" = "$id" ]; then
+		if [ -f "$studentid".txt ] && [ -s "$studentid".txt ]; then
+		 cat "$studentid".txt
+		 stuid=ok
+		else
+		 echo
+ 	  	 echo -e "\e[31mSTUDENT NOT FOUND. PLEASE TRY AGAIN BY ENTERING A VALID ID. (00XXX00000) \e[0m"
+ 	  	 echo
+		fi
+   	  else
+   	   echo
+ 	   echo -e "\e[31mNO RECORD FOUND. PLEASE ENTER ANOTHER STUDENT ID. (00XXX00000) \e[0m"
+ 	   echo
+   	  fi
+   done <<< $check
+   
+ fi
+ done
+ 
+ cont=i
+ until [ "$cont" = "ok" ]
+ do
+  echo
+  echo -en "\e[7mSearch Another Result? YES[Y] OR NO[N]\t\e[0m: ";read wish
+  echo
+  
+	case "$wish" in
+	[Yy])
+		cont=ok
+		clear
+		./searchresultscript
+		exit	
+		;;
+
+	[Nn])
+		cont=ok
+		echo
+		echo "RETURNING TO MAIN MENU..."
+		sleep 1
+		clear
+		./menuscript
+		exit	
+		;;
+
+	*)
+		echo
+		echo -en "\n\e[31mINVALID OPTION.PLEASE TRY AGAIN.\e[0m"
+ 		echo " "
+		;;
+	esac
+ done
+
