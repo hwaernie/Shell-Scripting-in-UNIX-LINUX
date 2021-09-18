@@ -7,4 +7,4 @@ This program allows user to manage student details in a more organized manner. U
 
 
 For more information :
-[Uploading Linux OS Students Details Management Program.pdf…]()
+[Linux OS Students Details Management Program.pdf](https://github.com/hwaernie/Students-Grading-System-using-UNIX-LINUX-commands/files/7190401/Linux.OS.Students.Details.Management.Program.pdf)
